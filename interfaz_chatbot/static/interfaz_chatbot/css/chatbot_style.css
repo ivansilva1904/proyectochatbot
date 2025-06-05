@@ -1,0 +1,168 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #0A192F; /* Azul oscuro principal */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #E6F1FF; /* Texto claro casi blanco */
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 500px; /* Ancho del chatbot */
+    height: 90vh; /* Alto del chatbot */
+    max-height: 700px;
+    background-color: #112240; /* Azul oscuro secundario */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    background-color: #1D2A4B; /* Azul un poco más claro para cabecera */
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #0A192F;
+}
+
+.chat-header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #64FFDA; /* Verde menta/turquesa como acento */
+    font-weight: 700;
+}
+
+.chat-header p {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    color: #A8B2D1; /* Gris azulado claro */
+}
+
+.chat-box {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espacio entre mensajes */
+}
+
+/* Estilo para la barra de scroll */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-box::-webkit-scrollbar-track {
+    background: #112240; /* Fondo de la pista */
+    border-radius: 10px;
+}
+
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #4FD1C5; /* Color del pulgar (acento) */
+    border-radius: 10px;
+    border: 2px solid #112240; /* Espacio alrededor del pulgar */
+}
+
+.message {
+    display: flex;
+    align-items: flex-end; /* Alinea el avatar con la parte inferior del globo */
+    max-width: 85%;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 2px solid #4FD1C5; /* Borde de acento para avatar */
+}
+
+.message-content {
+    padding: 12px 18px;
+    border-radius: 18px;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.message-time {
+    display: block;
+    font-size: 0.75em;
+    color: #5f667e; /* Gris azulado claro */
+    margin-top: 5px;
+    text-align: right;
+}
+
+/* Mensajes del Bot */
+.bot-message {
+    align-self: flex-start;
+}
+
+.bot-message .message-content {
+    background-color: #2C3E50; /* Azul grisáceo para mensajes del bot */
+    color: #E6F1FF;
+    border-top-left-radius: 4px; /* Para dar forma de globo */
+}
+.bot-message .message-time {
+    text-align: left;
+}
+
+
+/* Mensajes del Usuario */
+.user-message {
+    align-self: flex-end;
+}
+
+.user-message .message-content {
+    background-color: #00a2ff; /* Verde menta/turquesa para mensajes de usuario */
+    color: #0A192F; /* Texto oscuro para contraste */
+    border-top-right-radius: 4px; /* Para dar forma de globo */
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 15px 20px;
+    background-color: #1D2A4B; /* Mismo que cabecera */
+    border-top: 1px solid #0A192F;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #0A192F; /* Fondo del input */
+    color: #E6F1FF;
+    font-size: 1em;
+    outline: none; /* Quitar borde al enfocar */
+}
+
+#user-input::placeholder {
+    color: #A8B2D1;
+}
+
+#send-button {
+    background-color: #64FFDA; /* Botón de envío con color de acento */
+    border: none;
+    padding: 10px;
+    margin-left: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+#send-button svg {
+    fill: #0A192F; /* Icono oscuro para contraste */
+}
+
+#send-button:hover {
+    background-color: #52D8C9; /* Un poco más oscuro al pasar el mouse */
+}
