@@ -3,8 +3,11 @@ from django.http import JsonResponse # Para enviar respuestas en formato JSON
 from django.views.decorators.http import require_POST # Para asegurar que la vista solo acepte POST
 import json # Para trabajar con datos JSON
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 # Create your views here.
 
+@ensure_csrf_cookie
 def vista_chatbot(request):
     return render(request, 'interfaz_chatbot/chatbot.html')
 
