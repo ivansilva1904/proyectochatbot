@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse # Para enviar respuestas en formato JSON
 from django.views.decorators.http import require_POST # Para asegurar que la vista solo acepte POST
 import json # Para trabajar con datos JSON
+from .chatbot_parser import procesar_mensaje
 
 from django.views.decorators.csrf import ensure_csrf_cookie
 
@@ -24,7 +25,7 @@ def process_message_view(request):
 
         # Aquí es donde manipulas el string con Python
         # Ejemplo: convertir a mayúsculas
-        processed_message = user_message.upper()
+        processed_message = procesar_mensaje(user_message)
 
         # Simular un pequeño "pensamiento" del bot (opcional)
         #import time

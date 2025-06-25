@@ -1,0 +1,83 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> consulta
+Rule 1     consulta -> CLAVE PREP CIUDAD FECHA
+Rule 2     consulta -> CLAVE PREP CIUDAD PREP FECHA
+
+Terminals, with rules where they appear
+
+CIUDAD               : 1 2
+CLAVE                : 1 2
+FECHA                : 1 2
+PREP                 : 1 2 2
+error                : 
+
+Nonterminals, with rules where they appear
+
+consulta             : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . consulta
+    (1) consulta -> . CLAVE PREP CIUDAD FECHA
+    (2) consulta -> . CLAVE PREP CIUDAD PREP FECHA
+
+    CLAVE           shift and go to state 2
+
+    consulta                       shift and go to state 1
+
+state 1
+
+    (0) S' -> consulta .
+
+
+
+state 2
+
+    (1) consulta -> CLAVE . PREP CIUDAD FECHA
+    (2) consulta -> CLAVE . PREP CIUDAD PREP FECHA
+
+    PREP            shift and go to state 3
+
+
+state 3
+
+    (1) consulta -> CLAVE PREP . CIUDAD FECHA
+    (2) consulta -> CLAVE PREP . CIUDAD PREP FECHA
+
+    CIUDAD          shift and go to state 4
+
+
+state 4
+
+    (1) consulta -> CLAVE PREP CIUDAD . FECHA
+    (2) consulta -> CLAVE PREP CIUDAD . PREP FECHA
+
+    FECHA           shift and go to state 6
+    PREP            shift and go to state 5
+
+
+state 5
+
+    (2) consulta -> CLAVE PREP CIUDAD PREP . FECHA
+
+    FECHA           shift and go to state 7
+
+
+state 6
+
+    (1) consulta -> CLAVE PREP CIUDAD FECHA .
+
+    $end            reduce using rule 1 (consulta -> CLAVE PREP CIUDAD FECHA .)
+
+
+state 7
+
+    (2) consulta -> CLAVE PREP CIUDAD PREP FECHA .
+
+    $end            reduce using rule 2 (consulta -> CLAVE PREP CIUDAD PREP FECHA .)
+
