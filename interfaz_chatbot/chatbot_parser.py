@@ -12,6 +12,7 @@ tokens = (
     'CIUDAD',
     'FECHA'
 )
+climas = ["despejado", "nublado", "lluvioso", "tormenta", "llovizna"]
 
 # Palabras clave
 def t_CLAVE(t):
@@ -57,11 +58,10 @@ def randoms():
 def p_consulta_simple(p):
     'consulta : CLAVE PREP CIUDAD FECHA'
     if(p[1] == 'temperatura'):
-        temperatura = random.randint(0, 45)
-        climas = ["despejado", "nublado", "lluvioso", "tormenta", "llovizna"]
-        estado_clima = random.choice(climas)
+        temperatura = random.randint(0, 45)  
         p[0] = f"La temperatura de {p[3]} es {temperatura}C°"
     else:
+        estado_clima = random.choice(climas)
         p[0] = f"El {p[1]} de {p[3]} para {p[4]} es {estado_clima}"
 
 
@@ -70,11 +70,10 @@ def p_consulta_con_doble_prep(p):
     'consulta : CLAVE PREP CIUDAD PREP FECHA'
     p[0] = f"Consulta del tipo: '{p[1]} en {p[3]} {p[4]} {p[5]}'"
     if(p[1] == 'temperatura'):
-        temperatura = random.randint(0, 45)
-        climas = ["despejado", "nublado", "lluvioso", "tormenta", "llovizna"]
-        estado_clima = random.choice(climas)
+        temperatura = random.randint(0, 45)     
         p[0] = f"La temperatura de {p[3]} es {temperatura}C°"
     else:
+        estado_clima = random.choice(climas)
         p[0] = f"El {p[1]} de {p[3]} para {p[4]} es {estado_clima}"
 # Manejo de errores sintácticos
 def p_error(p):
