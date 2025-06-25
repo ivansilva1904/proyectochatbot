@@ -45,36 +45,45 @@ def t_error(t):
 lexer = lex.lex()
 
 # ---------------------------
-# 2. Parser
+# 2. Función auxiliar para generar respuesta
 # ---------------------------
 
-# Regla: consulta simple -> clave + prep + ciudad + fecha
+def generar_respuesta(clave, ciudad, fecha):
+    
+    if ciudad == "san_cosme":
+        ciudad_legible = "San Cosme"
+    else:
+        ciudad_legible = ciudad.capitalize()
 
-def randoms():
-    temperatura = random.randint(0, 45)
-   
-    return temperatura,
+    if fecha == "pasado_manana":
+        fecha_legible = "pasado mañana"
+    else:
+        fecha_legible = fecha.replace("_", "/")
+        
+    if clave == 'temperatura':
+        temperatura = random.randint(0, 45)
+        return f"La temperatura de {ciudad_legible} es {temperatura}°C para {fecha_legible}."
+    else:
+        estado_clima = random.choice(climas)
+        return f"El {clave} en {ciudad_legible} para {fecha_legible} será {estado_clima}."
+
+# ---------------------------
+# 3. Parser
+# ---------------------------
 
 def p_consulta_simple(p):
     'consulta : CLAVE PREP CIUDAD FECHA'
-    if(p[1] == 'temperatura'):
-        temperatura = random.randint(0, 45)  
-        p[0] = f"La temperatura de {p[3]} es {temperatura}C°"
-    else:
-        estado_clima = random.choice(climas)
-        p[0] = f"El {p[1]} de {p[3]} para {p[4]} es {estado_clima}"
+    p[0] = generar_respuesta(p[1], p[3], p[4])
 
-
-# Regla: consulta con doble preposición -> clave + prep + ciudad + prep + fecha
 def p_consulta_con_doble_prep(p):
     'consulta : CLAVE PREP CIUDAD PREP FECHA'
-    p[0] = f"Consulta del tipo: '{p[1]} en {p[3]} {p[4]} {p[5]}'"
-    if(p[1] == 'temperatura'):
-        temperatura = random.randint(0, 45)     
-        p[0] = f"La temperatura de {p[3]} es {temperatura}C°"
-    else:
-        estado_clima = random.choice(climas)
-        p[0] = f"El {p[1]} de {p[3]} para {p[4]} es {estado_clima}"
+    p[0] = generar_respuesta(p[1], p[3], p[5])
+
+def p_error(p):
+    raise SyntaxError("Consulta mal formada o no reconocida.")
+
+parser = yacc.yacc()
+
 # Manejo de errores sintácticos
 def p_error(p):
     raise SyntaxError("Consulta mal formada o no reconocida.")
@@ -83,7 +92,7 @@ def p_error(p):
 parser = yacc.yacc()
 
 # ---------------------------
-# 3. Función de interfaz para Django u otros
+# 4. Función de interfaz 
 # ---------------------------
 
 def procesar_mensaje(user_message):
@@ -91,11 +100,17 @@ def procesar_mensaje(user_message):
         # Normalizar entrada del usuario
         msg = user_message.lower().strip()
         msg = (
+            msg.replace("san cosme", "san_cosme")
+               .replace("pasado mañana", "pasado_manana")
+        )
+
+        # Reemplazo de tildes y otros
+        msg = (
             msg.replace("á", "a").replace("é", "e").replace("í", "i")
                .replace("ó", "o").replace("ú", "u").replace("ñ", "n")
-               .replace("pasado mañana", "pasado_manana")
                .replace("/", "_")
         )
+        
         resultado = parser.parse(msg)
         return resultado
     except (SyntaxError, ValueError) as e:
