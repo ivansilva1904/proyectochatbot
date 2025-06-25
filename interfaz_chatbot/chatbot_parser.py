@@ -48,18 +48,34 @@ lexer = lex.lex()
 # ---------------------------
 
 # Regla: consulta simple -> clave + prep + ciudad + fecha
+
+def randoms():
+    temperatura = random.randint(0, 45)
+   
+    return temperatura,
+
 def p_consulta_simple(p):
     'consulta : CLAVE PREP CIUDAD FECHA'
-    temperatura = random.randint(0, 45)
-    p[0] = f"La temperatura de {p[3].capitalize()} es {temperatura}°C el {p[4]}."
-    
+    if(p[1] == 'temperatura'):
+        temperatura = random.randint(0, 45)
+        climas = ["despejado", "nublado", "lluvioso", "tormenta", "llovizna"]
+        estado_clima = random.choice(climas)
+        p[0] = f"La temperatura de {p[3]} es {temperatura}C°"
+    else:
+        p[0] = f"El {p[1]} de {p[3]} para {p[4]} es {estado_clima}"
+
 
 # Regla: consulta con doble preposición -> clave + prep + ciudad + prep + fecha
 def p_consulta_con_doble_prep(p):
     'consulta : CLAVE PREP CIUDAD PREP FECHA'
-    temperatura = random.randint(0, 45)
-    p[0] = f"La temperatura de {p[3].capitalize()} es {temperatura}°C  {p[5]}."
-
+    p[0] = f"Consulta del tipo: '{p[1]} en {p[3]} {p[4]} {p[5]}'"
+    if(p[1] == 'temperatura'):
+        temperatura = random.randint(0, 45)
+        climas = ["despejado", "nublado", "lluvioso", "tormenta", "llovizna"]
+        estado_clima = random.choice(climas)
+        p[0] = f"La temperatura de {p[3]} es {temperatura}C°"
+    else:
+        p[0] = f"El {p[1]} de {p[3]} para {p[4]} es {estado_clima}"
 # Manejo de errores sintácticos
 def p_error(p):
     raise SyntaxError("Consulta mal formada o no reconocida.")
