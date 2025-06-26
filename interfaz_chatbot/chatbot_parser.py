@@ -39,7 +39,7 @@ t_ignore = ' \t\n'
 
 # Manejo de errores léxicos
 def t_error(t):
-    raise ValueError(f"Token inválido: {t.value}")
+    raise ValueError(f"Token inválido: {t.value.split()[0]}")
 
 # Crear el lexer
 lexer = lex.lex()
