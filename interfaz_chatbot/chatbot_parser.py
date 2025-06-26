@@ -74,10 +74,26 @@ def generar_respuesta(clave, ciudad, fecha):
 def p_consulta_simple(p):
     'consulta : CLAVE PREP CIUDAD FECHA'
     p[0] = generar_respuesta(p[1], p[3], p[4])
+    p[0] = {
+        'tipo': 'consulta_simple',
+        'clave': p[1],
+        'prep': p[2],
+        'ciudad': p[3],
+        'fecha': p[4]
+    }    
+
 
 def p_consulta_con_doble_prep(p):
     'consulta : CLAVE PREP CIUDAD PREP FECHA'
     p[0] = generar_respuesta(p[1], p[3], p[5])
+    p[0] = {
+        'tipo': 'consulta_doble_prep',
+        'clave': p[1],
+        'prep1': p[2],
+        'ciudad': p[3],
+        'prep2': p[4],
+        'fecha': p[5]
+    }        
 
 def p_error(p):
     raise SyntaxError("Consulta mal formada o no reconocida.")
@@ -112,6 +128,19 @@ def procesar_mensaje(user_message):
         )
         
         resultado = parser.parse(msg)
+
+        # Generar el árbol sintáctico
+        arbol = parser.parse(msg)
+        print("\n🌳 Árbol sintáctico generado:")
+        for clave, valor in arbol.items():
+            print(f"  {clave}: {valor}")
+
+        # Generar y devolver la respuesta
+        if arbol["tipo"] == "consulta_simple":
+            return generar_respuesta(arbol["clave"], arbol["ciudad"], arbol["fecha"])
+        elif arbol["tipo"] == "consulta_doble_prep":
+            return generar_respuesta(arbol["clave"], arbol["ciudad"], arbol["fecha"])
+        
         return resultado
     except (SyntaxError, ValueError) as e:
         return f"❌ Error: {e}"
